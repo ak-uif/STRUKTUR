@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STRUKTUR — Şəkildən 3D reallığa...</title>
+  <meta name="description" content="Boş otağınızın şəklini yükləyin, saniyələr içində 4K dizayn və 'Gördüyünü Al' xüsusiyyəti ilə tanış olun." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              DEFAULT: '#D4AF37',
+              hover: '#c49f2b',
+              light: '#fbf7eb'
+            },
+            dark: '#171717'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#FAFAFA] text-neutral-900 antialiased min-h-screen flex flex-col selection:bg-[#D4AF37]/30">
+
+  <!-- 1. Navbar -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <!-- Left side: Logo Area -->
+      <a href="javascript:void(0)" onclick="navigateTo('b2c')" class="cursor-pointer select-none">
+        <div class="flex items-center gap-3"><img src="images/Golden Serif Letter S.png" alt="Struktur Logo" class="h-10 w-10 object-contain rounded-md shadow-sm"><span class="text-2xl font-bold tracking-wider text-gray-900">STRUKTUR</span></div>
+      </a>
+
+      <!-- Right side: Cart Button & Gold Button -->
+      <div class="flex items-center gap-3">
+        <!-- Cart Button -->
+        <button 
+          id="cart-btn"
+          onclick="openCartModal()"
+          class="bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 font-semibold px-4 py-2.5 rounded-lg border border-neutral-200 transition-all text-sm flex items-center gap-1.5 cursor-pointer shadow-xs">
+          <span>🛒 Səbət</span>
+          <span class="bg-neutral-900 text-white text-xs px-2 py-0.5 rounded-full font-bold ml-1" id="cart-count">0</span>
+        </button>
+
+        <!-- Gold Button -->
+        <button 
+          id="nav-action-btn"
+          onclick="toggleView()"
+          class="bg-[#D4AF37] hover:bg-[#c49f2b] active:scale-95 text-neutral-950 font-bold px-6 py-2.5 rounded-lg shadow-sm transition-all duration-200 whitespace-nowrap text-sm tracking-wide cursor-pointer">
+          Mağaza kimi qoşul
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Main Page (b2c-view) -->
+  <div id="b2c-view" class="flex-1 flex flex-col">
+    <!-- Hero Section -->
+    <section class="max-w-4xl mx-auto px-6 pt-16 pb-10 text-center">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-neutral-900 mb-6">
+        Şəkildən 3D reallığa...
+      </h1>
+      <p class="text-lg md:text-xl text-neutral-600 max-w-2xl mx-auto leading-relaxed">
+        Boş otağınızın şəklini yükləyin, saniyələr içində 4K dizayn və 'Gördüyünü Al' xüsusiyyəti ilə tanış olun.
+      </p>
+    </section>
+
+    <!-- Functional Upload Area -->
+    <section class="max-w-3xl mx-auto px-6 pb-12 w-full">
+      <!-- Hidden file input -->
+      <input type="file" id="file-input" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
+
+      <div class="border-2 border-dashed border-neutral-300 hover:border-[#D4AF37] bg-white rounded-2xl p-10 md:p-14 text-center transition-all duration-300 shadow-sm flex flex-col items-center justify-center">
+        <!-- Camera Icon -->
+        <div class="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-700 mb-5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </div>
+
+        <p class="text-sm text-neutral-500 mb-6">JPEG, PNG və ya HEIC formatında boş otaq görüntüsü</p>
+
+        <!-- Button triggering upload / paywall -->
+        <button 
+          id="upload-btn"
+          onclick="handleUploadClick()"
+          class="bg-[#171717] hover:bg-neutral-800 active:scale-95 text-white font-medium px-8 py-3.5 rounded-xl transition-all duration-200 shadow-sm flex items-center gap-2 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+          <span>Otağının şəklini yüklə</span>
+        </button>
+
+        <p id="freemium-status-text" class="text-xs text-neutral-400 mt-4">
+          Pulsuz sınaq: 1 render haqqınız mövcuddur
+        </p>
+      </div>
+
+      <!-- Live Generation Result Section -->
+      <div id="result-container" class="hidden mt-8 bg-white border border-neutral-200 rounded-2xl p-6 shadow-sm">
+        
+        <!-- Loading Spinner Container (shown for 3 seconds) -->
+        <div id="loading-spinner-state" class="py-10 flex flex-col items-center justify-center text-center">
+          <div class="w-12 h-12 border-4 border-neutral-200 border-t-[#D4AF37] rounded-full animate-spin mb-4"></div>
+          <p class="text-sm font-semibold text-neutral-800">
+            Süni intellekt otağı analiz edir və 4K dizayn render olunur...
+          </p>
+          <p class="text-xs text-neutral-500 mt-1">Zəhmət olmasa gözləyin (təxminən 3 saniyə)</p>
+        </div>
+
+        <!-- Render Output Comparison (shown after 3 seconds) -->
+        <div id="render-output-state" class="hidden">
+          <div class="flex items-center justify-between pb-4 mb-4 border-b border-neutral-100">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span class="text-sm font-bold text-neutral-900">Transformasiya Tamamlandı</span>
+            </div>
+            <span class="text-xs font-semibold bg-[#D4AF37]/20 text-[#8a6e19] px-2.5 py-1 rounded">
+              4K 3D Dizayn • "Gördüyünü Al" Aktivdir
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Card 1: Əvvəl (Before) -->
+            <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-4 flex flex-col">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Əvvəl</span>
+                <span class="text-xs text-neutral-400">Yüklənmiş Şəkil</span>
+              </div>
+              <div class="relative bg-neutral-200 rounded-lg h-64 sm:h-80 overflow-hidden border border-neutral-200 flex items-center justify-center">
+                <img 
+                  id="before-image-preview" 
+                  src="" 
+                  alt="Əvvəl - Yüklənmiş Otaq" 
+                  class="w-full h-full object-cover">
+                <span class="absolute top-2 left-2 bg-neutral-900/80 text-white text-xs font-semibold px-2 py-0.5 rounded">
+                  Əvvəl
+                </span>
+              </div>
+            </div>
+
+            <!-- Card 2: Sonra (After) with 3 Pulsing Gold Hotspots -->
+            <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-4 flex flex-col">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-[#8a6e19] uppercase tracking-wider">Sonra</span>
+                <span class="text-xs text-emerald-600 font-medium">STRUKTUR AI 4K</span>
+              </div>
+              
+              <!-- Relative Wrapper with 3 Pulsing Gold Hotspots (TV, Sofa, Table) -->
+              <div class="relative bg-neutral-200 rounded-lg h-64 sm:h-80 overflow-hidden border border-[#D4AF37]/40 flex items-center justify-center select-none" id="after-wrapper">
+                <img 
+                  id="after-image-preview" 
+                  src="images/designed-room.jpg" 
+                  alt="Sonra - Dizayn Edilmiş Otaq" 
+                  class="w-full h-full object-cover"
+                  onerror="this.src='https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80'">
+                
+                <span class="absolute top-2 left-2 bg-[#D4AF37] text-neutral-950 text-xs font-bold px-2 py-0.5 rounded shadow-sm z-10">
+                  Sonra
+                </span>
+
+                <!-- Hotspot 1: Dining Table -->
+                <div class="absolute top-[60%] left-[52%] -translate-x-1/2 -translate-y-1/2 z-20">
+                  <button 
+                    type="button"
+                    onclick="toggleHotspotTooltip('hotspot-tip-tv', event)"
+                    class="relative flex h-6 w-6 cursor-pointer bg-transparent focus:outline-none"
+                    title="Mərmər Naxışlı Masa">
+                  </button>
+
+                  <!-- Tooltip Dining Table -->
+                  <div id="hotspot-tip-tv" class="hidden absolute top-8 left-0 bg-white/95 backdrop-blur-md border border-[#D4AF37] rounded-xl p-3 shadow-xl w-56 text-left z-30">
+                    <div class="text-xs font-bold text-neutral-900 leading-tight">Mərmər Naxışlı Masa</div>
+                    <div class="text-sm font-black text-[#8a6e19] my-2">700 AZN</div>
+                    <button 
+                      type="button"
+                      onclick="addToCart('Mərmər Naxışlı Masa', 700); hideAllHotspotTooltips(); event.stopPropagation();"
+                      class="w-full bg-[#171717] hover:bg-neutral-800 text-white text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 cursor-pointer">
+                      <span>Səbətə əlavə et</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Hotspot 2: Left Tall Cabinet -->
+                <div class="absolute top-[32%] left-[32%] -translate-x-1/2 -translate-y-1/2 z-20">
+                  <button 
+                    type="button"
+                    onclick="toggleHotspotTooltip('hotspot-tip-sofa', event)"
+                    class="relative flex h-6 w-6 cursor-pointer bg-transparent focus:outline-none"
+                    title="Vitrin Şkaf">
+                  </button>
+
+                  <!-- Tooltip Left Tall Cabinet -->
+                  <div id="hotspot-tip-sofa" class="hidden absolute top-8 left-0 bg-white/95 backdrop-blur-md border border-[#D4AF37] rounded-xl p-3 shadow-xl w-56 text-left z-30">
+                    <div class="text-xs font-bold text-neutral-900 leading-tight">Vitrin Şkaf</div>
+                    <div class="text-sm font-black text-[#8a6e19] my-2">550 AZN</div>
+                    <button 
+                      type="button"
+                      onclick="addToCart('Vitrin Şkaf', 550); hideAllHotspotTooltips(); event.stopPropagation();"
+                      class="w-full bg-[#171717] hover:bg-neutral-800 text-white text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 cursor-pointer">
+                      <span>Səbətə əlavə et</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Hotspot 3: Right Tall Cabinet -->
+                <div class="absolute top-[46%] left-[92%] -translate-x-1/2 -translate-y-1/2 z-20">
+                  <button 
+                    type="button"
+                    onclick="toggleHotspotTooltip('hotspot-tip-table', event)"
+                    class="relative flex h-6 w-6 cursor-pointer bg-transparent focus:outline-none"
+                    title="Təkli Vitrin">
+                  </button>
+
+                  <!-- Tooltip Right Tall Cabinet -->
+                  <div id="hotspot-tip-table" class="hidden absolute top-8 right-0 bg-white/95 backdrop-blur-md border border-[#D4AF37] rounded-xl p-3 shadow-xl w-56 text-left z-30">
+                    <div class="text-xs font-bold text-neutral-900 leading-tight">Təkli Vitrin</div>
+                    <div class="text-sm font-black text-[#8a6e19] my-2">400 AZN</div>
+                    <button 
+                      type="button"
+                      onclick="addToCart('Təkli Vitrin', 400); hideAllHotspotTooltips(); event.stopPropagation();"
+                      class="w-full bg-[#171717] hover:bg-neutral-800 text-white text-xs font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 cursor-pointer">
+                      <span>Səbətə əlavə et</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Examples / Showcase Section -->
+    <section class="max-w-6xl mx-auto px-6 pb-16 w-full">
+      <div class="border-t border-neutral-200 pt-12 mb-8 text-center">
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900">
+          Transformasiya Nümunələri
+        </h2>
+        <p class="text-sm text-neutral-500 mt-2">Bakıdakı mənzillərin real AI və 3D dizayn transformasiyaları</p>
+      </div>
+
+      <!-- CSS Grid: 2 side-by-side cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Sample Card 1 -->
+        <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm">
+          <div class="text-sm font-semibold text-neutral-800 mb-4 pb-3 border-b border-neutral-100 flex items-center justify-between">
+            <span>Mənzil Qonaq Otağı (Nərimanov)</span>
+            <span class="text-xs text-[#8a6e19] font-bold">4K Render</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-neutral-100 rounded-xl h-52 md:h-64 flex flex-col items-center justify-center border border-neutral-200 relative overflow-hidden">
+              <img 
+                src="./images/otaq1.jpeg" 
+                alt="Əvvəl" 
+                class="w-full h-full object-cover"
+                onerror="this.parentElement.innerHTML='<span class=\'text-neutral-400 text-sm font-medium\'>Əvvəl</span>'">
+              <span class="absolute top-2 left-2 bg-neutral-900/80 text-white text-xs px-2 py-0.5 rounded font-semibold">Əvvəl</span>
+            </div>
+            
+            <!-- Sonra with interactive hotspots (TV, Sofa, Table) -->
+            <div class="relative bg-neutral-100 rounded-xl h-52 md:h-64 flex flex-col items-center justify-center border border-neutral-200 overflow-hidden select-none">
+              <img 
+                src="./images/hotspot sekil1.jpeg" 
+                alt="Sonra" 
+                class="w-full h-full object-cover"
+                onerror="this.parentElement.innerHTML='<span class=\'text-neutral-400 text-sm font-medium\'>Sonra</span>'">
+              <span class="absolute top-2 left-2 bg-[#D4AF37] text-neutral-950 text-xs px-2 py-0.5 rounded font-bold z-10">Sonra</span>
+              
+              <!-- Sample Hotspot 1: TV (Top-Right) -->
+              <div class="absolute top-[51%] left-[51%] -translate-x-1/2 -translate-y-1/2 z-20">
+                <button 
+                  type="button"
+                  onclick="toggleHotspotTooltip('sample-tip-tv', event)"
+                  class="relative flex h-6 w-6 cursor-pointer bg-transparent focus:outline-none"
+                  title="Smart TV">
+                </button>
+                <div id="sample-tip-tv" class="hidden absolute top-7 right-0 bg-white/95 backdrop-blur-md border border-[#D4AF37] rounded-xl p-2.5 shadow-xl w-52 text-left z-30">
+                  <div class="text-xs font-bold text-neutral-900">Smart TV</div>
+                  <div class="text-[11px] text-neutral-500 font-medium">Mağaza: Kontakt Home</div>
+                  <div class="text-xs font-black text-[#8a6e19] my-1.5">1200 AZN</div>
+                  <button 
+                    type="button"
+                    onclick="addToCart('Smart TV', 1200, 'Kontakt Home'); hideAllHotspotTooltips(); event.stopPropagation();"
+                    class="w-full bg-[#171717] hover:bg-neutral-800 text-white text-[11px] font-semibold py-1 rounded transition-colors flex items-center justify-center gap-1 cursor-pointer">
+                    <span>Səbətə əlavə et</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Sample Hotspot 2: Sofa (Bottom-Center) -->
+              <div class="absolute top-[60%] left-[78%] -translate-x-1/2 -translate-y-1/2 z-20">
+                <button 
+                  type="button"
+                  onclick="toggleHotspotTooltip('sample-tip-sofa', event)"
+                  class="relative flex h-6 w-6 cursor-pointer bg-transparent focus:outline-none"
+                  title="Minimalist Divan">
+                </button>
+                <div id="sample-tip-sofa" class="hidden absolute bottom-7 right-0 bg-white/95 backdrop-blur-md border border-[#D4AF37] rounded-xl p-2.5 shadow-xl w-52 text-left z-30">
+                  <div class="text-xs font-bold text-neutral-900">Minimalist Divan</div>
+                  <div class="text-[11px] text-neutral-500 font-medium">Mağaza: Embawood</div>
+                  <div class="text-xs font-black text-[#8a6e19] my-1.5">850 AZN</div>
+                  <button 
+                    type="button"
+                    onclick="addToCart('Minimalist Divan', 850, 'Embawood'); hideAllHotspotTooltips(); event.stopPropagation();"
+                    class="w-full bg-[#171717] hover:bg-neutral-800 text-white text-[11px] font-semibold py-1 rounded transition-colors flex items-center justify-center gap-1 cursor-pointer">
+                    <span>Səbətə əlavə et</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Sample Hotspot 3: Table (Bottom-Left) -->
+              <div class="absolute top-[73%] left-[63%] -translate-x-1/2 -translate-y-1/2 z-20">
+                <button 
+                  type="button"
+                  onclick="toggleHotspotTooltip('sample-tip-table', event)"
+                  class="relative flex h-6 w-6 cursor-pointer bg-transparent focus:outline-none"
+                  title="Şüşəli Jurnal Masası">
+                </button>
+                <div id="sample-tip-table" class="hidden absolute bottom-7 left-0 bg-white/95 backdrop-blur-md border border-[#D4AF37] rounded-xl p-2.5 shadow-xl w-52 text-left z-30">
+                  <div class="text-xs font-bold text-neutral-900">Şüşəli Jurnal Masası</div>
+                  <div class="text-[11px] text-neutral-500 font-medium">Mağaza: Doğtaş</div>
+                  <div class="text-xs font-black text-[#8a6e19] my-1.5">150 AZN</div>
+                  <button 
+                    type="button"
+                    onclick="addToCart('Şüşəli Jurnal Masası', 150, 'Doğtaş'); hideAllHotspotTooltips(); event.stopPropagation();"
+                    class="w-full bg-[#171717] hover:bg-neutral-800 text-white text-[11px] font-semibold py-1 rounded transition-colors flex items-center justify-center gap-1 cursor-pointer">
+                    <span>Səbətə əlavə et</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Sample Card 2 -->
+        <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm">
+          <div class="text-sm font-semibold text-neutral-800 mb-4 pb-3 border-b border-neutral-100 flex items-center justify-between">
+            <span>Minimalist Yataq Otağı (Yasamal)</span>
+            <span class="text-xs text-[#8a6e19] font-bold">4K Render</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-neutral-100 rounded-xl h-52 md:h-64 flex flex-col items-center justify-center border border-neutral-200 relative overflow-hidden">
+              <img 
+                src="./images/otaq 2.jpeg" 
+                alt="Əvvəl" 
+                class="w-full h-full object-cover"
+                onerror="this.parentElement.innerHTML='<span class=\'text-neutral-400 text-sm font-medium\'>Əvvəl</span>'">
+              <span class="absolute top-2 left-2 bg-neutral-900/80 text-white text-xs px-2 py-0.5 rounded font-semibold">Əvvəl</span>
+            </div>
+            <div class="bg-neutral-100 rounded-xl h-52 md:h-64 flex flex-col items-center justify-center border border-neutral-200 relative overflow-hidden">
+              <img 
+                src="./images/hotspt sekil2.jpeg" 
+                alt="Sonra" 
+                class="w-full h-full object-cover"
+                onerror="this.parentElement.innerHTML='<span class=\'text-neutral-400 text-sm font-medium\'>Sonra</span>'">
+              <span class="absolute top-2 left-2 bg-[#D4AF37] text-neutral-950 text-xs px-2 py-0.5 rounded font-bold">Sonra</span>
+
+              <div class="absolute top-[58%] left-[10%] -translate-x-1/2 -translate-y-1/2 z-20">
+                <button
+                  type="button"
+                  onclick="toggleHotspotTooltip('sample-tip-left-console', event)"
+                  class="relative flex h-6 w-6 cursor-pointer bg-transparent focus:outline-none"
+                  title="Güzgülü Konsol">
+                </button>
+                <div id="sample-tip-left-console" class="hidden absolute top-8 left-0 bg-white/95 backdrop-blur-md border border-[#D4AF37] rounded-xl p-2.5 shadow-xl w-52 text-left z-30">
+                  <div class="text-xs font-bold text-neutral-900">Güzgülü Konsol</div>
+                  <div class="text-xs font-black text-[#8a6e19] my-1.5">450 AZN</div>
+                  <button type="button" onclick="addToCart('Güzgülü Konsol', 450); hideAllHotspotTooltips(); event.stopPropagation();" class="w-full bg-[#171717] hover:bg-neutral-800 text-white text-[11px] font-semibold py-1 rounded transition-colors flex items-center justify-center gap-1 cursor-pointer">
+                    <span>Səbətə əlavə et</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="absolute top-[53%] left-[45%] -translate-x-1/2 -translate-y-1/2 z-20">
+                <button
+                  type="button"
+                  onclick="toggleHotspotTooltip('sample-tip-dining-table', event)"
+                  class="relative flex h-6 w-6 cursor-pointer bg-transparent focus:outline-none"
+                  title="Müasir Yemək Masası">
+                </button>
+                <div id="sample-tip-dining-table" class="hidden absolute top-8 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md border border-[#D4AF37] rounded-xl p-2.5 shadow-xl w-52 text-left z-30">
+                  <div class="text-xs font-bold text-neutral-900">Müasir Yemək Masası</div>
+                  <div class="text-xs font-black text-[#8a6e19] my-1.5">600 AZN</div>
+                  <button type="button" onclick="addToCart('Müasir Yemək Masası', 600); hideAllHotspotTooltips(); event.stopPropagation();" class="w-full bg-[#171717] hover:bg-neutral-800 text-white text-[11px] font-semibold py-1 rounded transition-colors flex items-center justify-center gap-1 cursor-pointer">
+                    <span>Səbətə əlavə et</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="absolute top-[63%] left-[75%] -translate-x-1/2 -translate-y-1/2 z-20">
+                <button
+                  type="button"
+                  onclick="toggleHotspotTooltip('sample-tip-tv-stand', event)"
+                  class="relative flex h-6 w-6 cursor-pointer bg-transparent focus:outline-none"
+                  title="TV Stend">
+                </button>
+                <div id="sample-tip-tv-stand" class="hidden absolute top-8 right-0 bg-white/95 backdrop-blur-md border border-[#D4AF37] rounded-xl p-2.5 shadow-xl w-52 text-left z-30">
+                  <div class="text-xs font-bold text-neutral-900">TV Stend</div>
+                  <div class="text-xs font-black text-[#8a6e19] my-1.5">250 AZN</div>
+                  <button type="button" onclick="addToCart('TV Stend', 250); hideAllHotspotTooltips(); event.stopPropagation();" class="w-full bg-[#171717] hover:bg-neutral-800 text-white text-[11px] font-semibold py-1 rounded transition-colors flex items-center justify-center gap-1 cursor-pointer">
+                    <span>Səbətə əlavə et</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. RESTORED: Bottom CTA strictly INSIDE b2c-view ONLY -->
+    <section class="max-w-6xl mx-auto px-6 pb-20 w-full mt-auto">
+      <div class="bg-white border border-neutral-200 rounded-2xl p-8 sm:p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 class="text-xl sm:text-2xl font-bold text-neutral-900 mb-2">
+            Siz də mebel və ya dekorasiya mağazası sahibisiniz?
+          </h3>
+          <p class="text-sm text-neutral-500 max-w-xl">
+            Məhsullarınızı istifadəçilərin 3D renderlərində "Gördüyünü Al" ilə nümayiş etdirin və satışlarınızı artırın.
+          </p>
+        </div>
+        <button 
+          onclick="navigateTo('auth')"
+          class="bg-[#D4AF37] hover:bg-[#c49f2b] active:scale-95 text-neutral-950 font-bold px-8 py-3.5 rounded-xl transition-all duration-200 whitespace-nowrap shadow-sm text-sm cursor-pointer shrink-0">
+          Mağaza kimi qoşul
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- 3. Auth View (auth-view) - Hidden by default -->
+  <div id="auth-view" class="hidden flex-1 max-w-lg mx-auto px-6 py-16 w-full flex flex-col items-center justify-center">
+    
+    <!-- Clean, centered card with "Giriş" and "Qeydiyyat" tabs -->
+    <div class="bg-white border border-neutral-200 rounded-3xl p-8 sm:p-10 shadow-lg w-full relative">
+      
+      <!-- Top header -->
+      <div class="text-center mb-8">
+        <span class="inline-block text-xs font-bold tracking-widest text-[#D4AF37] uppercase bg-[#D4AF37]/10 px-3 py-1 rounded-full mb-3">
+          STRUKTUR PARTNYOR PORTALI
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
+          VIP+ Mağaza Girişi
+        </h2>
+        <p class="text-xs sm:text-sm text-neutral-500 mt-1.5">
+          3D mənzil renderlərində mebel satışı və bazar analitikası
+        </p>
+      </div>
+
+      <!-- Two toggle tabs at the top: "Giriş" (Login) and "Qeydiyyat" (Register) -->
+      <div class="flex items-center p-1 bg-neutral-100 rounded-xl mb-8 border border-neutral-200">
+        <button 
+          id="tab-login-btn"
+          type="button"
+          onclick="switchAuthTab('login')"
+          class="flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all shadow-xs bg-white text-neutral-900 cursor-pointer">
+          Giriş
+        </button>
+        <button 
+          id="tab-register-btn"
+          type="button"
+          onclick="switchAuthTab('register')"
+          class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all text-neutral-500 hover:text-neutral-900 cursor-pointer">
+          Qeydiyyat
+        </button>
+      </div>
+
+      <!-- Login Form: "Mağaza Adı" and "Şifrə" -->
+      <form id="login-form" onsubmit="handleLoginSubmit(event)" class="space-y-5">
+        <div>
+          <label for="login-store-name" class="block text-xs font-bold uppercase text-neutral-700 tracking-wider mb-2">
+            Mağaza Adı
+          </label>
+          <input 
+            type="text" 
+            id="login-store-name" 
+            placeholder="Məsələn: mebel" 
+            required
+            class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 outline-none text-sm transition-all bg-neutral-50 focus:bg-white" />
+        </div>
+
+        <div>
+          <label for="login-password" class="block text-xs font-bold uppercase text-neutral-700 tracking-wider mb-2">
+            Şifrə
+          </label>
+          <input 
+            type="password" 
+            id="login-password" 
+            placeholder="••••••••" 
+            required
+            class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 outline-none text-sm transition-all bg-neutral-50 focus:bg-white" />
+          <p class="text-[11px] text-neutral-400 mt-1.5 flex items-center justify-between">
+            <span>Demo girişi: <b>mebel</b> / <b>mebel123</b></span>
+          </p>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          type="submit"
+          class="w-full bg-[#D4AF37] hover:bg-[#c49f2b] active:scale-[0.99] text-neutral-950 font-bold py-3.5 rounded-xl text-sm transition-all duration-200 shadow-sm cursor-pointer mt-2">
+          Daxil ol
+        </button>
+      </form>
+
+      <!-- Register Form: Inputs for "Mağaza Adı", "Mobil Nömrə", "E-poçt", "VÖEN" -->
+      <form id="register-form" onsubmit="handleRegisterSubmit(event)" class="hidden space-y-4">
+        <div id="register-fields-container" class="space-y-4">
+          <div>
+            <label for="register-store-name" class="block text-xs font-bold uppercase text-neutral-700 tracking-wider mb-1.5">
+              Mağaza Adı
+            </label>
+            <input 
+              type="text" 
+              id="register-store-name" 
+              placeholder="Brend və ya mağazanızın adı" 
+              required
+              class="w-full px-4 py-2.5 rounded-xl border border-neutral-300 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 outline-none text-sm transition-all bg-neutral-50 focus:bg-white" />
+          </div>
+
+          <div>
+            <label for="register-phone" class="block text-xs font-bold uppercase text-neutral-700 tracking-wider mb-1.5">
+              Mobil Nömrə
+            </label>
+            <input 
+              type="tel" 
+              id="register-phone" 
+              placeholder="+994 (50) 000-00-00" 
+              required
+              class="w-full px-4 py-2.5 rounded-xl border border-neutral-300 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 outline-none text-sm transition-all bg-neutral-50 focus:bg-white" />
+          </div>
+
+          <div>
+            <label for="register-email" class="block text-xs font-bold uppercase text-neutral-700 tracking-wider mb-1.5">
+              E-poçt
+            </label>
+            <input 
+              type="email" 
+              id="register-email" 
+              placeholder="magaza@struktur.az" 
+              required
+              class="w-full px-4 py-2.5 rounded-xl border border-neutral-300 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 outline-none text-sm transition-all bg-neutral-50 focus:bg-white" />
+          </div>
+
+          <div>
+            <label for="register-voen" class="block text-xs font-bold uppercase text-neutral-700 tracking-wider mb-1.5">
+              VÖEN
+            </label>
+            <input 
+              type="text" 
+              id="register-voen" 
+              placeholder="10 rəqəmli VÖEN nömrəsi" 
+              required
+              class="w-full px-4 py-2.5 rounded-xl border border-neutral-300 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 outline-none text-sm transition-all bg-neutral-50 focus:bg-white" />
+          </div>
+
+          <button 
+            type="submit"
+            class="w-full bg-[#171717] hover:bg-neutral-800 active:scale-[0.99] text-white font-bold py-3.5 rounded-xl text-sm transition-all duration-200 shadow-sm cursor-pointer mt-4">
+            Müraciət Et
+          </button>
+        </div>
+
+        <!-- Green text: "Müraciətiniz qəbul edildi. 2 iş günü ərzində əlaqə saxlayacağıq." -->
+        <div id="register-success-box" class="hidden p-6 bg-emerald-50 border border-emerald-300 rounded-2xl text-center">
+          <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p class="text-base text-emerald-800 font-bold leading-relaxed">
+            Müraciətiniz qəbul edildi. 2 iş günü ərzində əlaqə saxlayacağıq.
+          </p>
+          <button 
+            type="button"
+            onclick="navigateTo('b2c')"
+            class="mt-5 text-xs font-semibold text-emerald-900 bg-white border border-emerald-300 hover:bg-emerald-100 px-4 py-2 rounded-lg transition-colors cursor-pointer">
+            Ana Səhifəyə Qayıt
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 4. B2B View (Dashboard) - Hidden by default -->
+  <div id="b2b-view" class="hidden flex-1 max-w-6xl mx-auto px-6 py-12 w-full flex-col">
+    <!-- Header: Prominent top banner saying "VIP+ olun" -->
+    <div class="bg-gradient-to-r from-amber-50 via-white to-amber-50/40 border border-[#D4AF37]/40 rounded-2xl p-6 sm:p-8 mb-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-1.5 bg-[#D4AF37] text-neutral-950 text-xs font-extrabold px-2.5 py-0.5 rounded mb-2">
+          STRUKTUR PARTNER
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-neutral-900">
+          VIP+ olun
+        </h1>
+        <p class="text-sm text-neutral-600 mt-1">
+          Mebel və interyer istehsalçıları üçün Bakı bazarında real vaxt axtarış və sifariş analitikası
+        </p>
+      </div>
+      <button 
+        onclick="navigateTo('b2c')" 
+        class="self-start sm:self-center bg-white hover:bg-neutral-50 text-neutral-700 text-xs font-semibold px-4 py-2.5 rounded-lg border border-neutral-200 transition-colors whitespace-nowrap cursor-pointer">
+        ← Ana Səhifəyə Qayıt
+      </button>
+    </div>
+
+    <!-- Stats: Two large side-by-side metric cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <!-- Metric 1 -->
+      <div class="bg-white border border-neutral-200 rounded-2xl p-8 shadow-sm">
+        <p class="text-xs font-semibold text-neutral-400 tracking-wider mb-2">STATİSTİKA 01</p>
+        <div class="text-3xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight">
+          GÖRÜNMƏ: <span class="text-[#D4AF37]">12,482</span>
+        </div>
+        <p class="text-xs text-neutral-500 mt-3 flex items-center gap-1.5">
+          <span class="text-emerald-600 font-semibold">↑ 34.2%</span> ötən həftə ilə müqayisədə
+        </p>
+      </div>
+
+      <!-- Metric 2 -->
+      <div class="bg-white border border-neutral-200 rounded-2xl p-8 shadow-sm">
+        <p class="text-xs font-semibold text-neutral-400 tracking-wider mb-2">STATİSTİKA 02</p>
+        <div class="text-3xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight">
+          KLİK SAYI: <span class="text-[#D4AF37]">1,205</span>
+        </div>
+        <p class="text-xs text-neutral-500 mt-3 flex items-center gap-1.5">
+          <span class="text-emerald-600 font-semibold">↑ 18.7%</span> "Gördüyünü Al" birbaşa konversiyası
+        </p>
+      </div>
+    </div>
+
+    <!-- Chart Area: "Trend Proqnozu" card below the stats -->
+    <div class="bg-white border border-neutral-200 rounded-2xl p-8 shadow-sm mb-12">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-neutral-900">Trend Proqnozu</h3>
+        <span class="text-xs bg-neutral-100 text-neutral-600 px-3 py-1 rounded-md font-medium border border-neutral-200">
+          Bakı Regionu • Cari Ay
+        </span>
+      </div>
+
+      <!-- Placeholder chart (gray div) -->
+      <div class="bg-neutral-100 rounded-xl h-64 border border-neutral-200 p-6 flex flex-col justify-between mb-6">
+        <div class="flex items-center justify-between text-xs text-neutral-500">
+          <span>İstehlakçı Tələb Dinamikası</span>
+          <span class="text-[#8a6e19] font-medium">Bazar İndeksi</span>
+        </div>
+
+        <!-- Clean visual trend bar representation -->
+        <div class="space-y-3.5 my-auto">
+          <div>
+            <div class="flex justify-between text-xs font-medium mb-1">
+              <span class="text-neutral-800 font-semibold">Minimalist Qara Teksturalar</span>
+              <span class="text-neutral-900 font-bold">+40% Artım</span>
+            </div>
+            <div class="w-full bg-neutral-200 rounded-full h-3 overflow-hidden">
+              <div class="bg-neutral-900 h-3 rounded-full" style="width: 88%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-medium mb-1">
+              <span class="text-neutral-700">Təbii İsti Daş & Travertin</span>
+              <span class="text-neutral-700 font-medium">+24%</span>
+            </div>
+            <div class="w-full bg-neutral-200 rounded-full h-3 overflow-hidden">
+              <div class="bg-[#D4AF37] h-3 rounded-full" style="width: 70%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-medium mb-1">
+              <span class="text-neutral-700">Tünd Qoz Ağacı Mebellər</span>
+              <span class="text-neutral-700 font-medium">+15%</span>
+            </div>
+            <div class="w-full bg-neutral-200 rounded-full h-3 overflow-hidden">
+              <div class="bg-neutral-400 h-3 rounded-full" style="width: 55%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-[11px] text-neutral-400 flex justify-between">
+          <span>Mənbə: STRUKTUR AI Render Statistikası</span>
+          <span>Yenilənmə: Real vaxt</span>
+        </div>
+      </div>
+
+      <!-- Required Text -->
+      <div class="bg-neutral-50 border-l-4 border-[#D4AF37] p-5 rounded-r-xl">
+        <p class="text-base text-neutral-900 leading-relaxed font-semibold">
+          Bakıda bu ay minimalist qara teksturalar 40% daha çox axtarılıb. Mağazalar istehsalı bu dataya görə idarə edir.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Paywall Modal (Popup) with updated pricing: 14.99 ₼ and 29.99 ₼ -->
+  <div id="paywall-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-neutral-200 relative animate-in fade-in zoom-in duration-200">
+      
+      <!-- Close (X) button on the top right -->
+      <button 
+        onclick="closePaywallModal()"
+        class="absolute top-5 right-5 text-neutral-400 hover:text-neutral-800 transition-colors p-1 rounded-lg hover:bg-neutral-100 cursor-pointer"
+        aria-label="Bağla">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Modal Title -->
+      <div class="text-center pr-8 pl-2 mb-8">
+        <div class="inline-flex items-center gap-1.5 bg-[#D4AF37]/20 text-[#8a6e19] text-xs font-bold px-3 py-1 rounded-full mb-3">
+          Pulsuz Render Limiti
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
+          Limitə Çatdınız. STRUKTUR ilə daha çox kəşf edin.
+        </h2>
+        <p class="text-sm text-neutral-500 mt-2">
+          Limitsiz memarlıq dizaynı və peşəkar renderlər üçün uyğun paketi seçin
+        </p>
+      </div>
+
+      <!-- Two pricing cards side-by-side -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        
+        <!-- Card 1 (PRO): Price 14.99 ₼ -->
+        <div class="border border-neutral-200 hover:border-neutral-300 rounded-2xl p-6 bg-neutral-50/50 flex flex-col justify-between transition-all">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-neutral-900">PRO</h3>
+              <span class="text-xs bg-neutral-200 text-neutral-700 font-semibold px-2 py-0.5 rounded">Fərdi</span>
+            </div>
+            <div class="text-3xl font-black text-neutral-900 mb-4">
+              14.99 ₼
+            </div>
+
+            <!-- Features -->
+            <ul class="space-y-3 text-sm text-neutral-600 mb-6">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Ayda 10 render (1080p)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Tək-tək otaq yükləmə</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Xüsusi dizayn stilləri</span>
+              </li>
+            </ul>
+          </div>
+
+          <button 
+            onclick="handlePackageSelect('PRO')"
+            class="w-full bg-[#171717] hover:bg-neutral-800 text-white font-semibold py-3 rounded-xl text-sm transition-colors cursor-pointer shadow-sm">
+            Pro-ya Keç
+          </button>
+        </div>
+
+        <!-- Card 2 (MAKLER): Price 29.99 ₼ -->
+        <div class="border-2 border-[#D4AF37] rounded-2xl p-6 bg-white relative flex flex-col justify-between shadow-md">
+          <div class="absolute -top-3 right-6 bg-[#D4AF37] text-neutral-950 text-[11px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+            Tövsiyə olunan
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-neutral-900">MAKLER</h3>
+              <span class="text-xs bg-[#D4AF37]/20 text-[#8a6e19] font-bold px-2 py-0.5 rounded">Biznes</span>
+            </div>
+            <div class="text-3xl font-black text-neutral-900 mb-4">
+              29.99 ₼
+            </div>
+
+            <!-- Features -->
+            <ul class="space-y-3 text-sm text-neutral-700 mb-6">
+              <li class="flex items-center gap-2 font-medium">
+                <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Limitsiz 4K render</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Toplu otaq dizaynı (Bütün evi yükləmə)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Agentlik loqosu (White-label)</span>
+              </li>
+            </ul>
+          </div>
+
+          <button 
+            onclick="handlePackageSelect('MAKLER')"
+            class="w-full bg-[#D4AF37] hover:bg-[#c49f2b] text-neutral-950 font-bold py-3 rounded-xl text-sm transition-colors cursor-pointer shadow-sm">
+            Makler Paketi
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Shopping Cart Modal -->
+  <div id="cart-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-neutral-200 relative animate-in fade-in zoom-in duration-200">
+      
+      <!-- Close (X) button -->
+      <button 
+        onclick="closeCartModal()"
+        class="absolute top-5 right-5 text-neutral-400 hover:text-neutral-800 transition-colors p-1 rounded-lg hover:bg-neutral-100 cursor-pointer"
+        aria-label="Bağla">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Cart Header -->
+      <div class="flex items-center gap-2.5 mb-6 pb-4 border-b border-neutral-100">
+        <div class="w-10 h-10 rounded-xl bg-[#D4AF37]/15 flex items-center justify-center text-lg">
+          🛒
+        </div>
+        <div>
+          <h3 class="text-xl font-extrabold text-neutral-900">Alış-veriş Səbəti</h3>
+          <p class="text-xs text-neutral-500">"Gördüyünü Al" ilə seçdiyiniz interyer məhsulları</p>
+        </div>
+      </div>
+
+      <!-- Cart Items List Container -->
+      <div id="cart-items-container" class="max-h-60 overflow-y-auto divide-y divide-neutral-100 mb-6 pr-1">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Cart Summary & Actions -->
+      <div class="border-t border-neutral-100 pt-4">
+        <div class="flex items-center justify-between text-base font-bold text-neutral-900 mb-5">
+          <span>Ümumi Məbləğ:</span>
+          <span id="cart-total-price" class="text-xl font-black text-[#8a6e19]">0 AZN</span>
+        </div>
+
+        <button 
+          id="confirm-order-btn"
+          onclick="confirmOrder()"
+          class="w-full bg-[#D4AF37] hover:bg-[#c49f2b] active:scale-[0.99] text-neutral-950 font-bold py-3.5 rounded-xl text-sm transition-all duration-200 shadow-sm cursor-pointer flex items-center justify-center gap-2">
+          <span>Sifarişi Təsdiqlə</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-neutral-200 bg-white py-8 mt-auto">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-4">
+      <p>© 2026 STRUKTUR. Bütün hüquqlar qorunur.</p>
+      <p class="text-neutral-400">Şəkildən 3D reallığa... • Bakı, Azərbaycan</p>
+    </div>
+  </footer>
+
+  <!-- Embedded JavaScript Logic -->
+  <script>
+    // State management
+    let uploadCount = 0;
+    let isProcessing = false;
+    
+    // Global Cart Array
+    let cart = [];
+
+    // 1. Navigation Logic
+    // When clicking "Mağaza kimi qoşul", hide all other views and show auth-view
+    function toggleView() {
+      const b2cView = document.getElementById('b2c-view');
+      const b2bView = document.getElementById('b2b-view');
+      const authView = document.getElementById('auth-view');
+      const navBtn = document.getElementById('nav-action-btn');
+
+      // If in auth-view or b2b-view, return to b2c-view
+      if (!authView.classList.contains('hidden') || !b2bView.classList.contains('hidden')) {
+        authView.classList.add('hidden');
+        b2bView.classList.add('hidden');
+        b2cView.classList.remove('hidden');
+        navBtn.textContent = 'Mağaza kimi qoşul';
+      } else {
+        // Open auth-view
+        b2cView.classList.add('hidden');
+        b2bView.classList.add('hidden');
+        authView.classList.remove('hidden');
+        navBtn.textContent = 'Ana Səhifəyə Qayıt';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function navigateTo(targetView) {
+      const b2cView = document.getElementById('b2c-view');
+      const b2bView = document.getElementById('b2b-view');
+      const authView = document.getElementById('auth-view');
+      const navBtn = document.getElementById('nav-action-btn');
+
+      b2cView.classList.add('hidden');
+      b2bView.classList.add('hidden');
+      authView.classList.add('hidden');
+
+      if (targetView === 'auth') {
+        authView.classList.remove('hidden');
+        navBtn.textContent = 'Ana Səhifəyə Qayıt';
+      } else if (targetView === 'b2b') {
+        b2bView.classList.remove('hidden');
+        navBtn.textContent = 'Ana Səhifəyə Qayıt';
+      } else {
+        b2cView.classList.remove('hidden');
+        navBtn.textContent = 'Mağaza kimi qoşul';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 2. Auth Tab Switching
+    function switchAuthTab(tab) {
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+      const tabLoginBtn = document.getElementById('tab-login-btn');
+      const tabRegisterBtn = document.getElementById('tab-register-btn');
+
+      if (tab === 'login') {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        tabLoginBtn.className = 'flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all shadow-xs bg-white text-neutral-900 cursor-pointer';
+        tabRegisterBtn.className = 'flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all text-neutral-500 hover:text-neutral-900 cursor-pointer';
+      } else {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        tabLoginBtn.className = 'flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all text-neutral-500 hover:text-neutral-900 cursor-pointer';
+        tabRegisterBtn.className = 'flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all shadow-xs bg-white text-neutral-900 cursor-pointer';
+      }
+    }
+
+    // 3. Login Validation
+    function handleLoginSubmit(event) {
+      event.preventDefault();
+      const storeName = document.getElementById('login-store-name').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+
+      // Check credentials: Mağaza Adı == "mebel" and Şifrə == "mebel123"
+      if (storeName === 'mebel' && password === 'mebel123') {
+        const authView = document.getElementById('auth-view');
+        const b2bView = document.getElementById('b2b-view');
+        const navBtn = document.getElementById('nav-action-btn');
+
+        authView.classList.add('hidden');
+        b2bView.classList.remove('hidden');
+        navBtn.textContent = 'Ana Səhifəyə Qayıt';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        alert('Yanlış mağaza adı və ya şifrə.');
+      }
+    }
+
+    // 4. Registration Handling
+    function handleRegisterSubmit(event) {
+      event.preventDefault();
+      const fieldsContainer = document.getElementById('register-fields-container');
+      const successBox = document.getElementById('register-success-box');
+
+      fieldsContainer.classList.add('hidden');
+      successBox.classList.remove('hidden');
+    }
+
+    // 5. Hotspot & Shopping Cart Logic
+    function toggleHotspotTooltip(tooltipId, event) {
+      event.stopPropagation();
+      const tooltip = document.getElementById(tooltipId);
+      const isHidden = tooltip.classList.contains('hidden');
+      hideAllHotspotTooltips();
+      if (isHidden) {
+        tooltip.classList.remove('hidden');
+      }
+    }
+
+    function hideAllHotspotTooltips() {
+      const tooltips = document.querySelectorAll('[id^="hotspot-tip-"], [id^="sample-tip-"]');
+      tooltips.forEach(function(el) {
+        el.classList.add('hidden');
+      });
+    }
+
+    // Add item to cart
+    function addToCart(itemName, itemPrice, storeName) {
+      cart.push({
+        name: itemName,
+        price: Number(itemPrice),
+        store: storeName || 'STRUKTUR Partnyor'
+      });
+      updateCartCount();
+      
+      // Temporary feedback on cart button
+      const cartBtn = document.getElementById('cart-btn');
+      cartBtn.classList.add('ring-2', 'ring-[#D4AF37]');
+      setTimeout(function() {
+        cartBtn.classList.remove('ring-2', 'ring-[#D4AF37]');
+      }, 600);
+    }
+
+    function updateCartCount() {
+      const cartCountEl = document.getElementById('cart-count');
+      cartCountEl.textContent = cart.length;
+    }
+
+    // Open Cart Modal and render items
+    function openCartModal() {
+      const modal = document.getElementById('cart-modal');
+      const container = document.getElementById('cart-items-container');
+      const totalPriceEl = document.getElementById('cart-total-price');
+      const confirmBtn = document.getElementById('confirm-order-btn');
+
+      container.innerHTML = '';
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="py-8 text-center text-neutral-400 text-sm">
+            Səbətiniz boşdur.
+          </div>
+        `;
+        totalPriceEl.textContent = '0 AZN';
+        confirmBtn.disabled = true;
+        confirmBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      } else {
+        let total = 0;
+        cart.forEach(function(item, index) {
+          total += item.price;
+          const row = document.createElement('div');
+          row.className = 'py-3 flex items-center justify-between text-sm';
+          row.innerHTML = `
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#D4AF37]"></span>
+              <div>
+                <span class="font-medium text-neutral-800">${item.name}</span>
+                <span class="text-xs text-neutral-400 block">${item.store || ''}</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-bold text-neutral-900">${item.price} AZN</span>
+              <button 
+                onclick="removeCartItem(${index})" 
+                class="text-neutral-400 hover:text-red-500 transition-colors p-1 cursor-pointer"
+                title="Sil">
+                ✕
+              </button>
+            </div>
+          `;
+          container.appendChild(row);
+        });
+
+        totalPriceEl.textContent = total + ' AZN';
+        confirmBtn.disabled = false;
+        confirmBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+
+      modal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function removeCartItem(index) {
+      cart.splice(index, 1);
+      updateCartCount();
+      openCartModal();
+    }
+
+    function closeCartModal() {
+      const modal = document.getElementById('cart-modal');
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function confirmOrder() {
+      if (cart.length === 0) return;
+      alert("Sifariş qəbul olundu!");
+      cart = [];
+      updateCartCount();
+      closeCartModal();
+    }
+
+    // 6. Freemium Upload Logic
+    function handleUploadClick() {
+      if (uploadCount >= 1) {
+        openPaywallModal();
+        return;
+      }
+      const fileInput = document.getElementById('file-input');
+      fileInput.click();
+    }
+
+    function handleFileSelect(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imageSrc = e.target.result;
+        startGeneration(imageSrc);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function startGeneration(imageSrc) {
+      const resultContainer = document.getElementById('result-container');
+      const spinnerState = document.getElementById('loading-spinner-state');
+      const outputState = document.getElementById('render-output-state');
+      const beforeImg = document.getElementById('before-image-preview');
+      const freemiumText = document.getElementById('freemium-status-text');
+
+      beforeImg.src = imageSrc;
+
+      resultContainer.classList.remove('hidden');
+      spinnerState.classList.remove('hidden');
+      outputState.classList.add('hidden');
+
+      resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // Loading spinner for 3 seconds
+      setTimeout(function() {
+        document.getElementById('after-image-preview').src = './images/hotspot sekil3.jpeg';
+        spinnerState.classList.add('hidden');
+        outputState.classList.remove('hidden');
+
+        uploadCount++;
+        freemiumText.textContent = 'Pulsuz sınaq limiti istifadə edildi (1/1). Növbəti render üçün abunə olun.';
+        freemiumText.classList.remove('text-neutral-400');
+        freemiumText.classList.add('text-amber-600', 'font-medium');
+      }, 3000);
+    }
+
+    // Paywall Modal Logic
+    function openPaywallModal() {
+      const modal = document.getElementById('paywall-modal');
+      modal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closePaywallModal() {
+      const modal = document.getElementById('paywall-modal');
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function handlePackageSelect(packageName) {
+      alert(packageName + " paketi seçildi. Təhlükəsiz ödəniş sisteminə yönləndirilirsiniz...");
+      closePaywallModal();
+    }
+
+    // Window click dismissals
+    window.onclick = function(event) {
+      const paywallModal = document.getElementById('paywall-modal');
+      const cartModal = document.getElementById('cart-modal');
+      if (event.target === paywallModal) {
+        closePaywallModal();
+      }
+      if (event.target === cartModal) {
+        closeCartModal();
+      }
+      hideAllHotspotTooltips();
+    };
+  </script>
+</body>
+</html>

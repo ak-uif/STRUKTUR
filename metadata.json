@@ -1,0 +1,6 @@
+{
+  "name": "STRUKTUR",
+  "description": "STRUKTUR - Şəkildən 3D reallığa... VIP+ Mağaza və Memarlıq Platforması",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
