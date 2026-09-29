@@ -547,7 +547,7 @@
 
   <!-- 5. Paywall Modal (Popup) with updated pricing: 14.99 ₼ and 29.99 ₼ -->
   <div id="paywall-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-neutral-200 relative animate-in fade-in zoom-in duration-200">
+    <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-neutral-200 relative animate-in fade-in zoom-in duration-200">
       
       <!-- Close (X) button on the top right -->
       <button 
@@ -573,21 +573,46 @@
       </div>
 
       <!-- Two pricing cards side-by-side -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         
-        <!-- Card 1 (PRO): Price 14.99 ₼ -->
-        <div class="border border-neutral-200 hover:border-neutral-300 rounded-2xl p-6 bg-neutral-50/50 flex flex-col justify-between transition-all">
+        <!-- Card 1: PRO -->
+        <div class="border border-neutral-200 hover:border-neutral-300 rounded-2xl p-6 bg-neutral-50/50 flex flex-col justify-between transition-colors">
           <div>
-            <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center justify-between mb-3">
               <h3 class="text-lg font-bold text-neutral-900">PRO</h3>
-              <span class="text-xs bg-neutral-200 text-neutral-700 font-semibold px-2 py-0.5 rounded">Fərdi</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 font-semibold px-2 py-1 rounded">Fərdi</span>
             </div>
-            <div class="text-3xl font-black text-neutral-900 mb-4">
-              14.99 ₼
-            </div>
-
+            <div class="text-3xl font-black text-neutral-900 mb-5">14.99 ₼</div>
+            <ul class="space-y-3 mb-6 text-sm text-neutral-700">
+              <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold" aria-hidden="true">✓</span><span>Ayda 10 render (1080p)</span></li>
+              <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold" aria-hidden="true">✓</span><span>Tək-tək otaq yükləmə</span></li>
+              <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold" aria-hidden="true">✓</span><span>Xüsusi dizayn stilləri</span></li>
+            </ul>
           </div>
+          <button 
+            onclick="handlePackageSelect('PRO')"
+            class="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-bold py-3 rounded-xl text-sm transition-colors cursor-pointer shadow-sm">
+            Pro-ya Keç
+          </button>
+        </div>
 
+        <!-- Card 2: MAKLER -->
+        <div class="border border-[#D4AF37] rounded-2xl p-6 bg-[#fbf7eb]/50 flex flex-col justify-between shadow-sm">
+          <div>
+            <div class="mb-3">
+              <span class="inline-flex bg-[#D4AF37] text-neutral-950 text-[11px] font-bold px-2.5 py-1 rounded-full">Tövsiyə olunan</span>
+              <div class="flex items-center justify-between mt-3">
+                <h3 class="text-lg font-bold text-neutral-900">MAKLER</h3>
+                <span class="text-xs bg-[#D4AF37]/20 text-[#735b12] font-semibold px-2 py-1 rounded">Biznes</span>
+              </div>
+            </div>
+            <div class="text-3xl font-black text-neutral-900 mb-5">29.99 ₼</div>
+            <ul class="space-y-3 mb-6 text-sm text-neutral-700">
+              <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold" aria-hidden="true">✓</span><span>Limitsiz 4K render</span></li>
+              <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold" aria-hidden="true">✓</span><span>Toplu otaq dizaynı (Bütün evi yükləmə)</span></li>
+              <li class="flex items-start gap-2"><span class="text-emerald-600 font-bold" aria-hidden="true">✓</span><span>Agentlik loqosu (White-label)</span></li>
+            </ul>
+          </div>
           <button 
             onclick="handlePackageSelect('MAKLER')"
             class="w-full bg-[#D4AF37] hover:bg-[#c49f2b] text-neutral-950 font-bold py-3 rounded-xl text-sm transition-colors cursor-pointer shadow-sm">
