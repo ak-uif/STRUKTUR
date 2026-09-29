@@ -39,7 +39,3 @@ STRUKTUR — istifadəçilərə boş otaqlarının şəklini yükləyərək sani
 ---
 
 ## 💻 Layihəni Yerli Mühitdə İşə Salmaq
-
-1. Deponu klonlayın:
-   ```bash
-   git clone [https://github.com/istifadeci-adin/struktur.git](https://github.com/istifadeci-adin/struktur.git)
